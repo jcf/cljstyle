@@ -219,25 +219,25 @@
   [zloc _]
   (loop [zloc (z/down zloc)]
     (cond
-      ;; Field vectors must be on a new line.
-      (zl/whitespace-between? any? type-fields? zloc)
-      (recur (zl/line-break zloc))
+      ;; Field vectors don't have to be on a new line.
+      ;; (zl/whitespace-between? any? type-fields? zloc)
+      ;; (recur (zl/line-break zloc))
 
       ;; One blank line between fields or options and interfaces.
       (zl/whitespace-between? (some-fn type-fields? type-option-val?) type-iface? zloc)
       (recur (zl/replace-with-blank-lines zloc 1))
 
-      ;; One blank line between interfaces and methods.
+      ;; New line between interfaces and methods.
       (zl/whitespace-between? type-iface? type-method? zloc)
-      (recur (zl/replace-with-blank-lines zloc 1))
+      (recur (zl/replace-with-blank-lines zloc 0))
 
-      ;; Two blank lines between methods and interfaces.
+      ;; New line between methods and interfaces.
       (zl/whitespace-between? type-method? type-iface? zloc)
-      (recur (zl/replace-with-blank-lines zloc 2))
+      (recur (zl/replace-with-blank-lines zloc 0))
 
-      ;; Two blank lines between methods.
+      ;; New line blank line between methods.
       (zl/whitespace-between? type-method? type-method? zloc)
-      (recur (zl/replace-with-blank-lines zloc 2))
+      (recur (zl/replace-with-blank-lines zloc 0))
 
       ;; Editing in place like methods, or skipping.
       :else
